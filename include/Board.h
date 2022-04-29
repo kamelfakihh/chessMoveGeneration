@@ -8,6 +8,9 @@ class Board {
 public:
 
     Board();
+    
+    // Returns a bitboard containing all the places a king can move or attack
+    bitboard kingPseudoLegalMoves(bitboard kingLocation, bitboard ownSide);    
 
 private:
 
