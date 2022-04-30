@@ -1,3 +1,4 @@
+#include <stdexcept>
 #include "Definitions.h"
 #include "Board.h"
 
@@ -18,6 +19,139 @@ Board::Board(){
     this->allWhitePieces= allWhitePiecesInitial;
     this->allBlackPieces= allBlackPiecesInitial;
     this->allPieces     = allPiecesInitial;
+}
+
+Board::Board(std::string fen){
+
+    this->clearPieces();
+    this->setFEN(fen);
+}
+
+void Board::clearPieces(){
+
+    this->whitePawns    = 0x0;
+    this->whiteRooks    = 0x0;
+    this->whiteKnights  = 0x0;
+    this->whiteBishops  = 0x0;
+    this->whiteQueens   = 0x0;
+    this->whiteKing     = 0x0;
+    this->blackPawns    = 0x0;
+    this->blackRooks    = 0x0;
+    this->blackKnights  = 0x0;
+    this->blackBishops  = 0x0;
+    this->blackQueens   = 0x0;
+    this->blackKing     = 0x0;
+    this->allWhitePieces= 0x0;
+    this->allBlackPieces= 0x0;
+    this->allPieces     = 0x0;    
+}
+
+void Board::setFEN(std::string afen){
+
+    this->clearPieces();
+
+    // extract piece placement information from the full fen
+    std::string fen;
+    size_t index = fen.find(" ");
+    if(index > -1){
+        fen = afen.substr(0, index);
+    } else {
+        fen = afen;
+    }
+
+    // files [A:H] are mapped to [0:7]    
+    auto file{0};
+
+    // ranks [1:8] are mapped to [0:7]
+    auto rank{7};
+
+    for( auto character : fen){
+
+        switch (character)
+        {
+            case 'p':
+                this->blackPawns = this->blackPawns | ((bitboard) 1) << (rank*8 + file);
+                file += 1;
+                break;
+            case 'P':
+                this->whitePawns = this->whitePawns | ((bitboard) 1) << (rank*8 + file);
+                file += 1;
+                break;
+            case 'r':
+                this->blackRooks = this->blackRooks | ((bitboard) 1) << (rank*8 + file);
+                file += 1;
+                break;
+            case 'R':
+                this->whiteRooks = this->whiteRooks | ((bitboard) 1) << (rank*8 + file);
+                file += 1;
+                break;
+            case 'n':
+                this->blackKnights = this->blackKnights | ((bitboard) 1) << (rank*8 + file);
+                file += 1;
+                break;
+            case 'N':
+                this->whiteKnights = this->whiteKnights | ((bitboard) 1) << (rank*8 + file);
+                file += 1;
+                break;
+            case 'b':
+                this->blackBishops = this->blackBishops | ((bitboard) 1) << (rank*8 + file);
+                file += 1;
+                break;
+            case 'B':
+                this->whiteBishops = this->whiteBishops | ((bitboard) 1) << (rank*8 + file);
+                file += 1;
+                break;
+            case 'q':
+                this->blackQueens = this->blackQueens | ((bitboard) 1) << (rank*8 + file);
+                file += 1;
+                break;
+            case 'Q':
+                this->whiteQueens = this->whiteQueens | ((bitboard) 1) << (rank*8 + file);
+                file += 1;
+                break;
+            case 'k':
+                this->blackKing = ((bitboard) 1) << (rank*8 + file);
+                file += 1;
+                break;
+            case 'K':
+                this->whiteKing = ((bitboard) 1) << (rank*8 + file);
+                file += 1;
+                break;                
+            case '/':
+                rank -= 1;
+                file = 0;
+                break;
+            case '1': 
+                file += 1; 
+                break;
+            case '2': 
+                file += 2; 
+                break;
+            case '3': 
+                file += 3; 
+                break;
+            case '4': 
+                file += 4; 
+                break;
+            case '5': 
+                file += 5; 
+                break;
+            case '6': 
+                file += 6; 
+                break;
+            case '7': 
+                file += 7; 
+                break;
+            case '8':
+                break;            
+            default : 
+                throw std::runtime_error("invalid FEN string");
+        }
+    }
+
+    this->allWhitePieces = this->whitePawns | this->whiteBishops | this->whiteKnights | this->whiteKnights | this->whiteRooks | this->whiteQueens;
+    this->allBlackPieces = this->blackPawns | this->blackBishops | this->blackKnights | this->blackKnights | this->blackRooks | this->blackQueens;
+    this->allPieces = this->allWhitePieces | this->allBlackPieces;
 }
 
 bitboard Board::kingPseudoLegalMoves(bitboard kingLocation, bitboard ownSide){
