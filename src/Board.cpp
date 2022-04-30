@@ -54,3 +54,13 @@ bitboard Board::kingPseudoLegalMoves(bitboard kingLocation, bitboard ownSide){
 
    return kingValid;
 }
+
+bitboard Board::wKingPseudoLegalMoves(){
+
+    return this->kingPseudoLegalMoves(whiteKing, allWhitePieces);
+}
+
+bitboard Board::bKingPseudoLegalMoves(){
+
+    return this->kingPseudoLegalMoves(blackKing, allBlackPieces);
+}
