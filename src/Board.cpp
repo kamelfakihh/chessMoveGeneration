@@ -163,7 +163,7 @@ bitboard Board::kingPseudoLegalMoves(bitboard kingLocation, bitboard ownSide){
         8 K 4
         7 6 5        
 
-        for positions 1,8,7 and 3,4,5 the king can move to an illegal position when it belongs to the A or F file 
+        for positions 1,8,7 and 3,4,5 the king can move to an illegal position when it belongs to the A or H file 
         and it is shifted in the Right or LEFT direction (ex: a king on the A file will move to the H file when shifted right),
         to avoid this issue the king is cleared from these files when shifted in those directions
     */
@@ -197,4 +197,50 @@ bitboard Board::wKingPseudoLegalMoves(){
 bitboard Board::bKingPseudoLegalMoves(){
 
     return this->kingPseudoLegalMoves(blackKing, allBlackPieces);
+}
+
+bitboard Board::knightPseudoLegalMoves(bitboard knightLocation, bitboard ownSide){
+
+    /*
+        checks if the king can move to positions 1-8:
+
+         2 3  
+        1   4
+          N  
+        8   5
+         7 6
+
+        for positions 1,4,5,8 knight's position has two overflows, it can move to an illegal position when it belongs to the A/B or G/H files 
+        and it is shifted in the Right or LEFT direction. The overflow in positions 2,3,6,7 is similar to the king's overflow. The knight is also
+        cleared from the files that cause an overflow when shifting in a specific direction
+    */
+
+   bitboard knightClipFileA  = knightLocation & ClearFile[FILE_A];
+   bitboard knightClipFileH  = knightLocation & ClearFile[FILE_H];
+   bitboard knightClipFileAB = knightClipFileA & ClearFile[FILE_B];
+   bitboard knightClipFileGH = knightClipFileH & ClearFile[FILE_G];
+
+   bitboard spot1 = knightClipFileAB << 6;
+   bitboard spot2 = knightClipFileA  << 15;
+   bitboard spot3 = knightClipFileH  << 17;
+   bitboard spot4 = knightClipFileGH << 10;
+   bitboard spot5 = knightClipFileGH >> 6;
+   bitboard spot6 = knightClipFileH  >> 15;
+   bitboard spot7 = knightClipFileA  >> 17;
+   bitboard spot8 = knightClipFileAB >> 10;   
+
+   bitboard knightMoves = spot1 | spot2 | spot3 | spot4 | spot5 | spot6 | spot7 | spot8;
+   bitboard knightValid = knightMoves & ~ownSide;
+
+   return knightValid;
+}
+
+bitboard Board::wKnightPseudoLegalMoves(int knightIndex){
+    bitboard knightLocation = this->whiteKnights & (((bitboard) 1) << knightIndex);
+    return this->knightPseudoLegalMoves(knightLocation, this->allWhitePieces);
+}
+
+bitboard Board::bKnightPseudoLegalMoves(int knightIndex){
+    bitboard knightLocation = this->blackKnights & (((bitboard) 1) << knightIndex);
+    return this->knightPseudoLegalMoves(knightLocation, this->allBlackPieces);
 }
