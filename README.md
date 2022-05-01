@@ -1,2 +1,2 @@
 # Chess Move Generation
-Implementation of bitboards for move generation
+Implementation of chess move generation using bitboards
