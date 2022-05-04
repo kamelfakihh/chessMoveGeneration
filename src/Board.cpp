@@ -244,3 +244,47 @@ bitboard Board::bKnightPseudoLegalMoves(int knightIndex){
     bitboard knightLocation = this->blackKnights & (((bitboard) 1) << knightIndex);
     return this->knightPseudoLegalMoves(knightLocation, this->allBlackPieces);
 }
+
+bitboard Board::wPawnPseudoLegalMoves(int pawnIndex){
+    
+    bitboard pawnLocation = this->whitePawns & (((bitboard) 1) << pawnIndex);
+    bitboard emptySquares = ~this->allPieces;
+
+    // check if pawn can be pushed one square foreward
+    bitboard singlePushTarget = (pawnLocation << 8) & emptySquares;
+
+    // if the pawn came from rank2, check if it can be pushed one more square (double push)
+    bitboard doublePushTarget = (singlePushTarget << 8) & MaskRank[RANK_4] & emptySquares;
+
+    // check left side attack (avoiding the underflow for pawn on file A)    
+    bitboard leftAttack = (pawnLocation & ClearFile[FILE_A]) << 7;
+
+    // check right side attack (avoiding the overflow for pawn on file H)    
+    bitboard rightAttack = (pawnLocation & ClearFile[FILE_H]) << 9;
+
+    bitboard validAttacks = (leftAttack | rightAttack) & this->allBlackPieces;
+
+    return validAttacks | singlePushTarget | doublePushTarget;
+}   
+
+bitboard Board::bPawnPseudoLegalMoves(int pawnIndex){
+
+    bitboard pawnLocation = this->blackPawns & (((bitboard) 1) << pawnIndex);
+    bitboard emptySquares = ~this->allPieces;
+
+    // check if pawn can be pushed one square foreward
+    bitboard singlePushTarget = (pawnLocation >> 8) & emptySquares;
+
+    // if the pawn came from rank2, check if it can be pushed one more square (double push)
+    bitboard doublePushTarget = (singlePushTarget >> 8) & MaskRank[RANK_4] & emptySquares;
+
+    // check left side attack (avoiding the underflow for pawn on file A)    
+    bitboard leftAttack = (pawnLocation & ClearFile[FILE_A]) >> 9;
+
+    // check right side attack (avoiding the overflow for pawn on file H)    
+    bitboard rightAttack = (pawnLocation & ClearFile[FILE_A]) << 7;
+
+    bitboard validAttacks = (leftAttack | rightAttack) & this->allWhitePieces;
+
+    return validAttacks | singlePushTarget | doublePushTarget;
+}
