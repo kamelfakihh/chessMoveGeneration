@@ -1,3 +1,4 @@
+#include <iostream>
 #include <stdexcept>
 #include "Definitions.h"
 #include "Board.h"
@@ -287,4 +288,44 @@ bitboard Board::bPawnPseudoLegalMoves(int pawnIndex){
     bitboard validAttacks = (leftAttack | rightAttack) & this->allWhitePieces;
 
     return validAttacks | singlePushTarget | doublePushTarget;
+}
+
+std::ostream &operator<<(std::ostream &os, const Board &b){
+    
+    for(int i=7; i>=0; i--){
+        for(int j=0; j<8; j++){
+
+            int pieceIndex = 8*i+j;
+
+            if((b.whitePawns & (((bitboard) 1) << pieceIndex )) != 0){
+                os << 'P';
+            } else if((b.blackPawns & (((bitboard) 1) << pieceIndex )) != 0){
+                os << 'p';
+            } else if((b.whiteKnights & (((bitboard) 1) << pieceIndex )) != 0){
+                os << 'N';            
+            } else if((b.blackKnights & (((bitboard) 1) << pieceIndex )) != 0){
+                os << 'n';
+            } else if((b.whiteBishops & (((bitboard) 1) << pieceIndex )) != 0){
+                os << 'B';
+            } else if((b.blackBishops & (((bitboard) 1) << pieceIndex )) != 0){
+                os << 'b';
+            } else if((b.whiteRooks & (((bitboard) 1) << pieceIndex )) != 0){
+                os << 'R';
+            } else if((b.blackRooks & (((bitboard) 1) << pieceIndex )) != 0){
+                os << 'r';
+            } else if((b.whiteQueens & (((bitboard) 1) << pieceIndex )) != 0){
+                os << 'Q';
+            } else if((b.blackQueens & (((bitboard) 1) << pieceIndex )) != 0){
+                os << 'q';
+            }else if((b.whiteKing & (((bitboard) 1) << pieceIndex )) != 0){
+                os << 'K';
+            } else if((b.blackKing & (((bitboard) 1) << pieceIndex )) != 0){
+                os << 'k';
+            }else{
+                os << '-';
+            }
+        }
+        os << std::endl;
+    }
+    return os;
 }

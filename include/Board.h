@@ -2,9 +2,12 @@
 #define BOARD_H
 
 #include <string>
+#include <iostream>
 #include "Definitions.h"
 
 class Board {
+
+    friend std::ostream &operator<<(std::ostream &os, const Board &b);
 
 public:
 
