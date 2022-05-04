@@ -83,6 +83,16 @@ typedef unsigned long long bitboard;
 #define FILE_G 6 
 #define FILE_H 7
 
+// Rank index
+#define RANK_1 0 
+#define RANK_2 1
+#define RANK_3 2
+#define RANK_4 3
+#define RANK_5 4
+#define RANK_6 5
+#define RANK_7 6 
+#define RANK_8 7
+
 // initial positions bitboards
 const bitboard whitePawnsInitial    = 0b0000000000000000000000000000000000000000000000001111111100000000;
 const bitboard whiteRooksInitial    = 0b0000000000000000000000000000000000000000000000000000000010000001;
