@@ -34,6 +34,24 @@ private:
     // removes all pieces off the board
     void clearPieces();
 
+    /*
+        flips a board vertically around the central rank 
+        rank 1 is mapped to rank 8, rank 2 is mapped to rank 7, ....
+
+        @param x any bitboard
+        @return bitboard x flipped vertically
+    */
+    bitboard flipVertical(bitboard x);
+
+    /*
+        flips a board horizontally around the central file 
+        file A is mapped to file H, file B is mapped to file G, ....
+
+        @param x any bitboard
+        @return bitboard x flipped horizontally
+    */
+    bitboard flipHorizontal(bitboard x);
+
     // Returns a bitboard containing all the places a king can move or attack
     bitboard kingPseudoLegalMoves(bitboard kingLocation, bitboard ownSide);    
 

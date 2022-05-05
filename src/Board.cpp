@@ -290,6 +290,27 @@ bitboard Board::bPawnPseudoLegalMoves(int pawnIndex){
     return validAttacks | singlePushTarget | doublePushTarget;
 }
 
+bitboard Board::flipVertical(bitboard x){
+    return  (( x << 56 )                     |
+            (( x << 40 ) & MaskRank[RANK_7]) |
+            (( x << 24 ) & MaskRank[RANK_6]) |
+            (( x <<  8 ) & MaskRank[RANK_5]) |
+            (( x >>  8 ) & MaskRank[RANK_5]) |
+            (( x >> 24 ) & MaskRank[RANK_5]) |
+            (( x >> 40 ) & MaskRank[RANK_5]) |
+            (  x >> 56 ));
+}
+
+bitboard Board::flipHorizontal(bitboard x){    
+    bitboard k1 = 0x5555555555555555;
+    bitboard k2 = 0x3333333333333333;
+    bitboard k4 = 0x0f0f0f0f0f0f0f0f;
+    x = ((x >> 1) & k1) | ((x & k1) << 1);
+    x = ((x >> 2) & k2) | ((x & k2) << 2);
+    x = ((x >> 4) & k4) | ((x & k4) << 4);
+    return x;
+}
+
 std::ostream &operator<<(std::ostream &os, const Board &b){
     
     for(int i=7; i>=0; i--){
