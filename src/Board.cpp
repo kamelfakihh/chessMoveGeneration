@@ -155,6 +155,48 @@ void Board::setFEN(std::string afen){
     this->allPieces = this->allWhitePieces | this->allBlackPieces;
 }
 
+bitboard Board::getPseudoLegalMoves(int pieceIndex){
+
+    if((this->whitePawns & (((bitboard) 1) << pieceIndex )) != 0){
+        return this->wPawnPseudoLegalMoves(pieceIndex);
+
+    } else if((this->blackPawns & (((bitboard) 1) << pieceIndex )) != 0){
+        return this->bPawnPseudoLegalMoves(pieceIndex);
+
+    } else if((this->whiteKnights & (((bitboard) 1) << pieceIndex )) != 0){
+        return this->wKnightPseudoLegalMoves(pieceIndex);
+
+    } else if((this->blackKnights & (((bitboard) 1) << pieceIndex )) != 0){
+        return this->bKnightPseudoLegalMoves(pieceIndex);
+
+    } else if((this->whiteBishops & (((bitboard) 1) << pieceIndex )) != 0){
+        return this->wBishopPseudoLegalMoves(pieceIndex);
+
+    } else if((this->blackBishops & (((bitboard) 1) << pieceIndex )) != 0){
+        return this->bBishopPseudoLegalMoves(pieceIndex);
+
+    } else if((this->whiteRooks & (((bitboard) 1) << pieceIndex )) != 0){
+        return this->wRookPseudoLegalMoves(pieceIndex);
+
+    } else if((this->blackRooks & (((bitboard) 1) << pieceIndex )) != 0){
+        return this->bRookPseudoLegalMoves(pieceIndex);
+
+    } else if((this->whiteQueens & (((bitboard) 1) << pieceIndex )) != 0){
+        return this->wQueenPseudoLegalMoves(pieceIndex);
+
+    } else if((this->blackQueens & (((bitboard) 1) << pieceIndex )) != 0){
+        return this->bQueenPseudoLegalMoves(pieceIndex);
+
+    }else if((this->whiteKing & (((bitboard) 1) << pieceIndex )) != 0){
+        return this->wKingPseudoLegalMoves();
+
+    } else if((this->blackKing & (((bitboard) 1) << pieceIndex )) != 0){
+        return this->bKingPseudoLegalMoves();        
+    }else{
+        return 0x0;
+    }    
+}
+
 bitboard Board::kingPseudoLegalMoves(bitboard kingLocation, bitboard ownSide){
 
     /*
@@ -203,7 +245,7 @@ bitboard Board::bKingPseudoLegalMoves(){
 bitboard Board::knightPseudoLegalMoves(bitboard knightLocation, bitboard ownSide){
 
     /*
-        checks if the king can move to positions 1-8:
+        checks if the knight can move to positions 1-8:
 
          2 3  
         1   4

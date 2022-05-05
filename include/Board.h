@@ -16,8 +16,10 @@ public:
     
     // Resets the board and sets its position to the one specified by FEN
     void setFEN(std::string fen);
+    
 
     // Return bitboards containing all the places the white/black pieces can move or attack
+    bitboard getPseudoLegalMoves(int index);
 
     bitboard wKingPseudoLegalMoves();    
     bitboard bKingPseudoLegalMoves();
@@ -37,7 +39,7 @@ public:
     bitboard wQueenPseudoLegalMoves(int queenIndex);
     bitboard bQueenPseudoLegalMoves(int queenIndex);
 
-// private:
+private:
 
     // removes all pieces off the board
     void clearPieces();
