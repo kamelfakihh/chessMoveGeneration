@@ -150,8 +150,8 @@ void Board::setFEN(std::string afen){
         }
     }
 
-    this->allWhitePieces = this->whitePawns | this->whiteBishops | this->whiteKnights | this->whiteKnights | this->whiteRooks | this->whiteQueens;
-    this->allBlackPieces = this->blackPawns | this->blackBishops | this->blackKnights | this->blackKnights | this->blackRooks | this->blackQueens;
+    this->allWhitePieces = this->whitePawns | this->whiteBishops | this->whiteKnights | this->whiteKing | this->whiteRooks | this->whiteQueens;
+    this->allBlackPieces = this->blackPawns | this->blackBishops | this->blackKnights | this->blackKing | this->blackRooks | this->blackQueens;
     this->allPieces = this->allWhitePieces | this->allBlackPieces;
 }
 
