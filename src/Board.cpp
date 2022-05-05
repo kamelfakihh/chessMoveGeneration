@@ -315,6 +315,85 @@ bitboard Board::reverse(bitboard x){
     return this->flipHorizontal(this->flipVertical(x));
 }
 
+/*
+    To generate sliding moves/attacks we use the Hyperbola Quintessence algorithm 
+
+    we treat the arithmetical carry, or inverse, borrow propagation as a way to generate sliding pieces attacks 
+    in one ray direction. As long there are zeros left (empty squares) between blocker and subtracting piecse, 
+    the borrow walks through, similar as a sliding piece moves along the empty squares. (https://www.chessprogramming.org/Hyperbola_Quintessence)
+
+    lineAttacks =   (o-2r) ^ reverse( o'-2r')
+    where o is the occupied squares, and r is the concerned pieces (o' and r' are the inverses)        
+*/
+
+bitboard Board::diagonalAttacks(bitboard occupied, int index){
+
+    int rankIndex = index/8;
+    int fileIndex = index%8;
+    int diagonalIndex = (rankIndex - fileIndex) & 15;
+    
+    // piece location
+    bitboard location = (((bitboard) 1) << index);
+
+    bitboard forward = occupied & MaskDiagonal[diagonalIndex];    
+    bitboard reverse = this->reverse(forward);    
+
+    forward -= (location << 1);
+    reverse -= (this->reverse(location) << 1);    
+
+    return (forward ^ this->reverse(reverse)) & MaskDiagonal[diagonalIndex];
+}
+
+bitboard Board::antiDiagonalAttacks(bitboard occupied, int index){
+
+    int rankIndex = index/8;
+    int fileIndex = index%8;
+    int antiDiagonalIndex = (rankIndex + fileIndex) ^ 7;;
+    
+    // piece location
+    bitboard location = (((bitboard) 1) << index);
+
+    bitboard forward = occupied & MaskAntiDiagonal[antiDiagonalIndex];    
+    bitboard reverse = this->reverse(forward);    
+
+    forward -= (location << 1);
+    reverse -= (this->reverse(location) << 1);    
+
+    return (forward ^ this->reverse(reverse)) & MaskAntiDiagonal[antiDiagonalIndex];    
+}
+
+bitboard Board::fileAttacks(bitboard occupied, int index){
+    
+    int fileIndex = index%8;    
+    
+    // piece location
+    bitboard location = (((bitboard) 1) << index);
+
+    bitboard forward = occupied & MaskFile[fileIndex];    
+    bitboard reverse = this->reverse(forward);    
+
+    forward -= (location << 1);
+    reverse -= (this->reverse(location) << 1);    
+
+    return (forward ^ this->reverse(reverse)) & MaskFile[fileIndex];    
+}
+
+bitboard Board::rankAttacks(bitboard occupied, int index){
+
+    int rankIndex = index/8;    
+    
+    // piece location
+    bitboard location = (((bitboard) 1) << index);
+
+    bitboard forward = occupied & MaskRank[rankIndex];    
+    bitboard reverse = this->reverse(forward);    
+
+    forward -= (location << 1);
+    reverse -= (this->reverse(location) << 1);    
+
+    return (forward ^ this->reverse(reverse)) & MaskRank[rankIndex];    
+}
+
 std::ostream &operator<<(std::ostream &os, const Board &b){
     
     for(int i=7; i>=0; i--){

@@ -61,6 +61,42 @@ public:
     */
     bitboard reverse(bitboard x);
 
+    /*
+        finds all diagonal attacks for a piece at a specified index         
+
+        @param index piece square index
+        @param occupied bitboard containing all occupied squares
+        @return bitboard containing all target/attack sqaures
+    */
+    bitboard diagonalAttacks(bitboard occupied, int index);
+
+    /*
+        finds all antiDiagonal attacks for a piece at a specified index         
+
+        @param index piece square index
+        @param occupied bitboard containing all occupied squares
+        @return bitboard containing all target/attack sqaures
+    */
+    bitboard antiDiagonalAttacks(bitboard occupied, int index);
+
+    /*
+        finds all file attacks for a piece at a specified index         
+
+        @param index piece square index
+        @param occupied bitboard containing all occupied squares
+        @return bitboard containing all target/attack sqaures
+    */
+    bitboard fileAttacks(bitboard occupied, int index);
+
+    /*
+        finds all rank attacks for a piece at a specified index         
+
+        @param index piece square index
+        @param occupied bitboard containing all occupied squares
+        @return bitboard containing all target/attack sqaures
+    */
+    bitboard rankAttacks(bitboard occupied, int index);
+
     // Returns a bitboard containing all the places a king can move or attack
     bitboard kingPseudoLegalMoves(bitboard kingLocation, bitboard ownSide);    
 
