@@ -484,31 +484,31 @@ std::ostream &operator<<(std::ostream &os, const Board &b){
             int pieceIndex = 8*i+j;
 
             if((b.whitePawns & (((bitboard) 1) << pieceIndex )) != 0){
-                os << 'P';
+                os << "P ";
             } else if((b.blackPawns & (((bitboard) 1) << pieceIndex )) != 0){
-                os << 'p';
+                os << "p ";
             } else if((b.whiteKnights & (((bitboard) 1) << pieceIndex )) != 0){
-                os << 'N';            
+                os << "N ";            
             } else if((b.blackKnights & (((bitboard) 1) << pieceIndex )) != 0){
-                os << 'n';
+                os << "n ";
             } else if((b.whiteBishops & (((bitboard) 1) << pieceIndex )) != 0){
-                os << 'B';
+                os << "B ";
             } else if((b.blackBishops & (((bitboard) 1) << pieceIndex )) != 0){
-                os << 'b';
+                os << "b ";
             } else if((b.whiteRooks & (((bitboard) 1) << pieceIndex )) != 0){
-                os << 'R';
+                os << "R ";
             } else if((b.blackRooks & (((bitboard) 1) << pieceIndex )) != 0){
-                os << 'r';
+                os << "r ";
             } else if((b.whiteQueens & (((bitboard) 1) << pieceIndex )) != 0){
-                os << 'Q';
+                os << "Q ";
             } else if((b.blackQueens & (((bitboard) 1) << pieceIndex )) != 0){
-                os << 'q';
+                os << "q ";
             }else if((b.whiteKing & (((bitboard) 1) << pieceIndex )) != 0){
-                os << 'K';
+                os << "K ";
             } else if((b.blackKing & (((bitboard) 1) << pieceIndex )) != 0){
-                os << 'k';
+                os << "k ";
             }else{
-                os << '-';
+                os << "- ";
             }
         }
         os << std::endl;
