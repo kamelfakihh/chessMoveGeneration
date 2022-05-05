@@ -17,17 +17,25 @@ public:
     // Resets the board and sets its position to the one specified by FEN
     void setFEN(std::string fen);
 
-    // Return a bitboard containing all the places the white/black king can move or attack
+    // Return bitboards containing all the places the white/black pieces can move or attack
+
     bitboard wKingPseudoLegalMoves();    
     bitboard bKingPseudoLegalMoves();
-
-    // Return a bitboard containing all the places a white/black knight can move or attack
+    
     bitboard wKnightPseudoLegalMoves(int knightIndex);    
     bitboard bKnightPseudoLegalMoves(int knightIndex);
-
-    // Return a bitboard containing all the places a white/black pawn can move or attack
+    
     bitboard wPawnPseudoLegalMoves(int pawnIndex);    
     bitboard bPawnPseudoLegalMoves(int pawnIndex);
+
+    bitboard wBishopPseudoLegalMoves(int bishopIndex);
+    bitboard bBishopPseudoLegalMoves(int bishopIndex);
+
+    bitboard wRookPseudoLegalMoves(int rookIndex);
+    bitboard bRookPseudoLegalMoves(int rookIndex);
+
+    bitboard wQueenPseudoLegalMoves(int queenIndex);
+    bitboard bQueenPseudoLegalMoves(int queenIndex);
 
 // private:
 

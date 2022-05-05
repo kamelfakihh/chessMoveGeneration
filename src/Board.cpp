@@ -394,6 +394,46 @@ bitboard Board::rankAttacks(bitboard occupied, int index){
     return (forward ^ this->reverse(reverse)) & MaskRank[rankIndex];    
 }
 
+bitboard Board::wBishopPseudoLegalMoves(int bishopIndex){
+
+    return (this->diagonalAttacks(this->allPieces, bishopIndex) | 
+           this->antiDiagonalAttacks(this->allPieces, bishopIndex)) & ~this->allWhitePieces;
+}
+
+bitboard Board::bBishopPseudoLegalMoves(int bishopIndex){
+
+    return (this->diagonalAttacks(this->allPieces, bishopIndex) | 
+           this->antiDiagonalAttacks(this->allPieces, bishopIndex)) & ~this->allBlackPieces;
+}
+
+bitboard Board::wRookPseudoLegalMoves(int rookIndex){
+
+    return (this->fileAttacks(this->allPieces, rookIndex) | 
+           this->rankAttacks(this->allPieces, rookIndex)) & ~this->allWhitePieces;
+}
+
+bitboard Board::bRookPseudoLegalMoves(int rookIndex){
+
+    return (this->fileAttacks(this->allPieces, rookIndex) | 
+           this->rankAttacks(this->allPieces, rookIndex)) & ~this->allBlackPieces;
+}
+
+bitboard Board::wQueenPseudoLegalMoves(int queenIndex){
+
+    return (this->diagonalAttacks(this->allPieces, queenIndex) | 
+           this->antiDiagonalAttacks(this->allPieces, queenIndex) | 
+           this->fileAttacks(this->allPieces, queenIndex) | 
+           this->rankAttacks(this->allPieces, queenIndex)) & ~this->allWhitePieces;
+}
+
+bitboard Board::bQueenPseudoLegalMoves(int queenIndex){
+
+    return (this->diagonalAttacks(this->allPieces, queenIndex) | 
+           this->antiDiagonalAttacks(this->allPieces, queenIndex) | 
+           this->fileAttacks(this->allPieces, queenIndex) | 
+           this->rankAttacks(this->allPieces, queenIndex)) & ~this->allBlackPieces;
+}
+
 std::ostream &operator<<(std::ostream &os, const Board &b){
     
     for(int i=7; i>=0; i--){
