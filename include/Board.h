@@ -29,7 +29,7 @@ public:
     bitboard wPawnPseudoLegalMoves(int pawnIndex);    
     bitboard bPawnPseudoLegalMoves(int pawnIndex);
 
-private:
+// private:
 
     // removes all pieces off the board
     void clearPieces();
@@ -51,6 +51,15 @@ private:
         @return bitboard x flipped horizontally
     */
     bitboard flipHorizontal(bitboard x);
+
+    /*
+        reverses a board 
+        square A1 is mapped to square G8 and vice versa
+
+        @param x any bitboard
+        @return bitboard x reversed
+    */
+    bitboard reverse(bitboard x);
 
     // Returns a bitboard containing all the places a king can move or attack
     bitboard kingPseudoLegalMoves(bitboard kingLocation, bitboard ownSide);    

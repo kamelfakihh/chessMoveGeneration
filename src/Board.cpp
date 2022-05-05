@@ -295,9 +295,9 @@ bitboard Board::flipVertical(bitboard x){
             (( x << 40 ) & MaskRank[RANK_7]) |
             (( x << 24 ) & MaskRank[RANK_6]) |
             (( x <<  8 ) & MaskRank[RANK_5]) |
-            (( x >>  8 ) & MaskRank[RANK_5]) |
-            (( x >> 24 ) & MaskRank[RANK_5]) |
-            (( x >> 40 ) & MaskRank[RANK_5]) |
+            (( x >>  8 ) & MaskRank[RANK_4]) |
+            (( x >> 24 ) & MaskRank[RANK_3]) |
+            (( x >> 40 ) & MaskRank[RANK_2]) |
             (  x >> 56 ));
 }
 
@@ -309,6 +309,10 @@ bitboard Board::flipHorizontal(bitboard x){
     x = ((x >> 2) & k2) | ((x & k2) << 2);
     x = ((x >> 4) & k4) | ((x & k4) << 4);
     return x;
+}
+
+bitboard Board::reverse(bitboard x){
+    return this->flipHorizontal(this->flipVertical(x));
 }
 
 std::ostream &operator<<(std::ostream &os, const Board &b){
